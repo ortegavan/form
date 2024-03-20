@@ -1,0 +1,28 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="mat-elevation-z2 form">
+    <h1>{{ titulo }}</h1>
+    <p>{{ subtitulo }}</p>
+
+    @for (campo of campos; track $index) {
+    <div>
+        <mat-form-field appearance="fill" class="campo" *ngIf="campo.tipo == 0 || campo.tipo == 1">
+            <mat-label>{{ campo.titulo }}</mat-label>
+            <input matInput [formControlName]="campo.nome">
+            <mat-error *ngIf="form.get(campo.nome)?.errors?.['required']">
+                Este campo é obrigatório.
+            </mat-error>
+            <mat-error *ngIf="form.get(campo.nome)?.errors?.['email']">
+                O e-mail informado é inválido.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="campo" *ngIf="campo.tipo == 2">
+            <mat-label>{{ campo.titulo }}</mat-label>
+            <input matInput [matDatepicker]="picker" [formControlName]="campo.nome">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    }
+
+    <ng-content></ng-content>
+</form>

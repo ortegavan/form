@@ -1,4 +1,5 @@
 export enum TipoCampo {
     texto = 0,
-    numero = 1,
+    email = 1,
+    data = 2,
 }
