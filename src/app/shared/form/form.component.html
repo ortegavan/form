@@ -6,7 +6,7 @@
     <div>
         <mat-form-field appearance="fill" class="campo" *ngIf="campo.tipo == 0 || campo.tipo == 1">
             <mat-label>{{ campo.titulo }}</mat-label>
-            <input matInput [formControlName]="campo.nome">
+            <input matInput [formControlName]="campo.nome" #controle>
             <mat-error *ngIf="form.get(campo.nome)?.errors?.['required']">
                 Este campo é obrigatório.
             </mat-error>
@@ -17,7 +17,7 @@
 
         <mat-form-field appearance="fill" class="campo" *ngIf="campo.tipo == 2">
             <mat-label>{{ campo.titulo }}</mat-label>
-            <input matInput [matDatepicker]="picker" [formControlName]="campo.nome">
+            <input matInput [matDatepicker]="picker" [formControlName]="campo.nome" #controle>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>

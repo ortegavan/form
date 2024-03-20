@@ -29,12 +29,14 @@ export class ExemploComponent {
             titulo: 'Telefone',
             tipo: TipoCampo.texto,
             obrigatorio: false,
+            mascara: '(00) 00000-0000',
         },
         {
             nome: 'nascimento',
             titulo: 'Data de nascimento',
             tipo: TipoCampo.data,
             obrigatorio: false,
+            mascara: '00/00/0000',
         },
     ];
 

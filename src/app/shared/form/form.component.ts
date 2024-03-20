@@ -1,9 +1,13 @@
 import {
+    AfterViewInit,
     Component,
+    ElementRef,
     EventEmitter,
     Input,
     OnInit,
     Output,
+    QueryList,
+    ViewChildren,
     inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,6 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { IMask } from 'angular-imask';
 import { Campo } from '../../models/campo';
 
 @Component({
@@ -35,11 +40,12 @@ import { Campo } from '../../models/campo';
     templateUrl: './form.component.html',
     styleUrl: './form.component.css',
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, AfterViewInit {
     @Input() titulo!: string;
     @Input() subtitulo!: string;
     @Input({ required: true }) campos!: Campo[];
     @Output() submit = new EventEmitter<object>();
+    @ViewChildren('controle') controles!: QueryList<ElementRef>;
     form!: FormGroup;
     fb = inject(FormBuilder);
 
@@ -62,7 +68,19 @@ export class FormComponent implements OnInit {
         }
     }
 
+    ngAfterViewInit(): void {
+        this.controles.forEach((controle, index) => {
+            if (this.campos[index].mascara) {
+                IMask(controle.nativeElement, {
+                    mask: this.campos[index].mascara,
+                });
+            }
+        });
+    }
+
     onSubmit(): void {
-        this.submit.emit(this.form.value);
+        if (this.form.valid) {
+            this.submit.emit(this.form.value);
+        }
     }
 }
